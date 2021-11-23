@@ -285,7 +285,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_externals/actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noexternals.zip
-        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}.zip
+        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noexternals.zip
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-x64-noexternals)
@@ -295,7 +295,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_externals/actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
-        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (osx-x64-noexternals)
@@ -305,7 +305,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_externals/actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
-        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm-noexternals)
@@ -315,7 +315,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_externals/actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
-        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm64-noexternals)
@@ -325,7 +325,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_externals/actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
-        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     # Upload release assets (trim runtime)
@@ -336,7 +336,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime/actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noruntime.zip
-        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}.zip
+        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noruntime.zip
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-x64-noruntime)
@@ -346,7 +346,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime/actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
-        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (osx-x64-noruntime)
@@ -356,7 +356,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime/actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
-        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm-noruntime)
@@ -366,7 +366,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime/actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
-        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm64-noruntime)
@@ -376,7 +376,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime/actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
-        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noruntime.tar.gz
         asset_content_type: application/octet-stream
 
     # Upload release assets (trim runtime and externals)
@@ -387,7 +387,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime_externals/actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.zip
-        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}.zip
+        asset_name: actions-runner-win-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.zip
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-x64-noruntime-noexternals)
@@ -397,7 +397,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime_externals/actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
-        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (osx-x64-noruntime-noexternals)
@@ -407,7 +407,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime_externals/actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
-        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-osx-x64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm-noruntime-noexternals)
@@ -417,7 +417,7 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime_externals/actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
-        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
         asset_content_type: application/octet-stream
 
     - name: Upload Release Asset (linux-arm64-noruntime-noexternals)
@@ -427,5 +427,5 @@ jobs:
       with:
         upload_url: ${{ steps.createRelease.outputs.upload_url }}
         asset_path: ${{ github.workspace }}/_package_trims/trim_runtime_externals/actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
-        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}.tar.gz
+        asset_name: actions-runner-linux-arm64-${{ steps.releaseNote.outputs.version }}-noruntime-noexternals.tar.gz
         asset_content_type: application/octet-stream
