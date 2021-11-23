@@ -114,18 +114,6 @@ jobs:
         ${{ matrix.devScript }} package Release ${{ matrix.runtime }}
       working-directory: src
 
-    # Upload runner package tar.gz/zip as artifact.
-    # Since each package name is unique, so we don't need to put ${{matrix}} info into artifact name
-    - name: Publish Artifact
-      if: github.event_name != 'pull_request'
-      uses: actions/upload-artifact@v2
-      with:
-        name: runner-packages
-        path: |
-          _package
-          _package_trims/trim_externals
-          _package_trims/trim_runtime
-          _package_trims/trim_runtime_externals
     # compute shas and set as job outputs to use in release notes
     - run: brew install coreutils #needed for shasum util
       if: ${{ matrix.os == 'macOS-latest' }}
@@ -144,6 +132,7 @@ jobs:
         sha=$(sha256sum $file | awk '{ print $1 }')
         echo "Computed sha256: $sha for $file"
         echo "::set-output name=${{matrix.runtime}}-sha256::$sha"
+        echo "::set-output name=sha256::$sha"
       shell: bash
       id: sha_noexternals
       name: Compute SHA256
@@ -153,6 +142,7 @@ jobs:
         sha=$(sha256sum $file | awk '{ print $1 }')
         echo "Computed sha256: $sha for $file"
         echo "::set-output name=${{matrix.runtime}}-sha256::$sha"
+        echo "::set-output name=sha256::$sha"
       shell: bash
       id: sha_noruntime
       name: Compute SHA256
@@ -162,10 +152,64 @@ jobs:
         sha=$(sha256sum $file | awk '{ print $1 }')
         echo "Computed sha256: $sha for $file"
         echo "::set-output name=${{matrix.runtime}}-sha256::$sha"
+        echo "::set-output name=sha256::$sha"
       shell: bash
       id: sha_noruntime_noexternals
       name: Compute SHA256
       working-directory: _package_trims/trim_runtime_externals
+    
+    - name: Create trimmedpackages.json for ${{ matrix.runtime }}
+      if: matrix.runtime == 'win-x64'
+      uses: actions/github-script@0.3.0
+      with:
+        script: |
+          const core = require('@actions/core')
+          const fs = require('fs');
+          const runnerVersion = fs.readFileSync('${{ github.workspace }}/src/runnerversion', 'utf8').replace(/\n$/g, '')
+          const trimmedPackages = fs.readFileSync('${{ github.workspace }}/src/Misc/trimmedpackages_windows.json', 'utf8').replace(/<RUNNER_VERSION>/g, runnerVersion).replace(/<RUNNER_PLATFORM>/g, '${{ matrix.runtime }}')
+          trimmedPackages = trimmedPackages.replace(/<RUNTIME_HASH>/g, '${{hashFiles('**/_layout_trims/runtime/**/*')}}')
+          trimmedPackages = trimmedPackages.replace(/<EXTERNALS_HASH>/g, '${{hashFiles('**/_layout_trims/externals/**/*')}}')
+
+          trimmedPackages = trimmedPackages.replace(/<NO_RUNTIME_EXTERNALS_HASH>/g, '${{steps.sha_noruntime_noexternals.outputs.sha256}}')
+          trimmedPackages = trimmedPackages.replace(/<NO_RUNTIME_HASH>/g, '${{steps.sha_noruntime.outputs.sha256}}')
+          trimmedPackages = trimmedPackages.replace(/<NO_EXTERNALS_HASH>/g, '${{steps.sha_noexternals.outputs.sha256}}')
+
+          console.log(trimmedPackages)
+          fs.writeFileSync('${{ runner.temp }}/${{ matrix.runtime }}-trimmedpackages.json', trimmedPackages)
+
+    - name: Create trimmedpackages.json for ${{ matrix.runtime }}
+      if: matrix.runtime != 'win-x64'
+      uses: actions/github-script@0.3.0
+      with:
+        script: |
+          const core = require('@actions/core')
+          const fs = require('fs');
+          const runnerVersion = fs.readFileSync('${{ github.workspace }}/src/runnerversion', 'utf8').replace(/\n$/g, '')
+          const trimmedPackages = fs.readFileSync('${{ github.workspace }}/src/Misc/trimmedpackages_non_windows.json', 'utf8').replace(/<RUNNER_VERSION>/g, runnerVersion).replace(/<RUNNER_PLATFORM>/g, '${{ matrix.runtime }}')
+          trimmedPackages = trimmedPackages.replace(/<RUNTIME_HASH>/g, '${{hashFiles('**/_layout_trims/runtime/**/*')}}')
+          trimmedPackages = trimmedPackages.replace(/<EXTERNALS_HASH>/g, '${{hashFiles('**/_layout_trims/externals/**/*')}}')
+
+          trimmedPackages = trimmedPackages.replace(/<NO_RUNTIME_EXTERNALS_HASH>/g, '${{steps.sha_noruntime_noexternals.outputs.sha256}}')
+          trimmedPackages = trimmedPackages.replace(/<NO_RUNTIME_HASH>/g, '${{steps.sha_noruntime.outputs.sha256}}')
+          trimmedPackages = trimmedPackages.replace(/<NO_EXTERNALS_HASH>/g, '${{steps.sha_noexternals.outputs.sha256}}')
+
+          console.log(trimmedPackages)
+          fs.writeFileSync('${{ runner.temp }}/${{ matrix.runtime }}-trimmedpackages.json', trimmedPackages)
+
+    # Upload runner package tar.gz/zip as artifact.
+    # Since each package name is unique, so we don't need to put ${{matrix}} info into artifact name
+    - name: Publish Artifact
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-artifact@v2
+      with:
+        name: runner-packages
+        path: |
+          _package
+          _package_trims/trim_externals
+          _package_trims/trim_runtime
+          _package_trims/trim_runtime_externals
+          ${{ runner.temp }}/${{ matrix.runtime }}-trimmedpackages.json
+
   release:
     needs: build
     runs-on: ubuntu-latest

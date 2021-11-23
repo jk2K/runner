@@ -74,6 +74,20 @@ jobs:
         DOTNET_RUNTIME_HASH: ${{hashFiles('**/_layout_trims/runtime/**/*')}}
         EXTERNALS_HASH: ${{hashFiles('**/_layout_trims/externals/**/*')}}
 
+    - name: Create trimmedpackages.json for ${{ matrix.runtime }}
+      if: github.event_name != 'pull_request'
+      uses: actions/github-script@0.3.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const core = require('@actions/core')
+          const fs = require('fs');
+          const trimmedPackages = fs.readFileSync('${{ github.workspace }}/src/Misc/trimmedpackages.json', 'utf8')
+          trimmedPackages = trimmedPackages.replace(/<RUNTIME_HASH>/g, '${{hashFiles('**/_layout_trims/runtime/**/*')}}')
+          trimmedPackages = trimmedPackages.replace(/<EXTERNALS_HASH>/g, '${{hashFiles('**/_layout_trims/externals/**/*')}}')
+          console.log(trimmedPackages)
+          fs.writeFileSync('${{ runner.temp }}/${{ matrix.runtime }}-trimmedpackages.json', trimmedPackages)
+
     # Upload runner package tar.gz/zip as artifact
     - name: Publish Artifact
       if: github.event_name != 'pull_request'
@@ -85,3 +99,4 @@ jobs:
           _package_trims/trim_externals
           _package_trims/trim_runtime
           _package_trims/trim_runtime_externals
+          ${{ runner.temp }}/${{ matrix.runtime }}-trimmedpackages.json
