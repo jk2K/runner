@@ -159,7 +159,7 @@ namespace GitHub.Runner.Common.Tests
             _serviceSingletons[typeof(T)] = singleton;
         }
 
-        public string GetDirectory(WellKnownDirectory directory)
+        public string GetDirectory(WellKnownDirectory directory, [CallerMemberName] string caller = "")
         {
             string path;
             switch (directory)
@@ -227,7 +227,7 @@ namespace GitHub.Runner.Common.Tests
             return path;
         }
 
-        public string GetConfigFile(WellKnownConfigFile configFile)
+        public string GetConfigFile(WellKnownConfigFile configFile, [CallerMemberName] string caller = "")
         {
             string path;
             switch (configFile)

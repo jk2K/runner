@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,8 +26,8 @@ namespace GitHub.Runner.Common
         ISecretMasker SecretMasker { get; }
         List<ProductInfoHeaderValue> UserAgents { get; }
         RunnerWebProxy WebProxy { get; }
-        string GetDirectory(WellKnownDirectory directory);
-        string GetConfigFile(WellKnownConfigFile configFile);
+        string GetDirectory(WellKnownDirectory directory, [CallerMemberName] string caller = "");
+        string GetConfigFile(WellKnownConfigFile configFile, [CallerMemberName] string caller = "");
         Tracing GetTrace(string name);
         Task Delay(TimeSpan delay, CancellationToken cancellationToken);
         T CreateService<T>() where T : class, IRunnerService;
@@ -205,7 +206,7 @@ namespace GitHub.Runner.Common
             }
         }
 
-        public string GetDirectory(WellKnownDirectory directory)
+        public string GetDirectory(WellKnownDirectory directory, [CallerMemberName] string caller = "")
         {
             string path;
             switch (directory)
@@ -271,14 +272,14 @@ namespace GitHub.Runner.Common
                     break;
 
                 default:
-                    throw new NotSupportedException($"Unexpected well known directory: '{directory}'");
+                    throw new NotSupportedException($"Unexpected well known directory: '{directory}' ({caller})");
             }
 
-            _trace.Info($"Well known directory '{directory}': '{path}'");
+            _trace.Info($"Well known directory '{directory}': '{path}' ({caller})");
             return path;
         }
 
-        public string GetConfigFile(WellKnownConfigFile configFile)
+        public string GetConfigFile(WellKnownConfigFile configFile, [CallerMemberName] string caller = "")
         {
             string path;
             switch (configFile)
@@ -342,7 +343,7 @@ namespace GitHub.Runner.Common
                         GetDirectory(WellKnownDirectory.Root),
                         ".setup_info");
                     break;
-                
+
                 case WellKnownConfigFile.Telemetry:
                     path = Path.Combine(
                         GetDirectory(WellKnownDirectory.Diag),
@@ -350,10 +351,10 @@ namespace GitHub.Runner.Common
                     break;
 
                 default:
-                    throw new NotSupportedException($"Unexpected well known config file: '{configFile}'");
+                    throw new NotSupportedException($"Unexpected well known config file: '{configFile}' ({caller})");
             }
 
-            _trace.Info($"Well known config file '{configFile}': '{path}'");
+            _trace.Info($"Well known config file '{configFile}': '{path}' ({caller})");
             return path;
         }
 

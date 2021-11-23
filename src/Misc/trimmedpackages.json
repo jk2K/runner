@@ -1,0 +1,24 @@
+[
+    {
+        "HashValue": "<Hash>",
+        "DownloadUrl": "<downloadURL>",
+        "TrimmedContents": {
+            "dotnetRuntime": "<DotnetRuntimeHash>",
+            "externals": "<ExternalsHash>"
+        }
+    },
+    {
+        "HashValue": "<Hash>",
+        "DownloadUrl": "<downloadURL>",
+        "TrimmedContents": {
+            "dotnetRuntime": "<DotnetRuntimeHash>"
+        }
+    },
+    {
+        "HashValue": "<Hash>",
+        "DownloadUrl": "<downloadURL>",
+        "TrimmedContents": {
+            "externals": "<ExternalsHash>"
+        }
+    }
+]
